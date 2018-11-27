@@ -60,14 +60,9 @@ const msNormalizer = async filePath => {
     const parsedDirPath = path.dirname(filePath);
     const subtitleFileName = path.basename(filePath, ".srt");
     console.log(
-      chalk.cyan.bold(
-        chalk.magenta.bold(`msNormalizer says: \n`) +
-          `The subtitle ${chalk.red.bold(
-            subtitleFileName + ".srt"
-          )} is being processed at the following path: ${chalk.red.bold(
-            parsedDirPath
-          )}`
-      )
+      `msNormalizer says: \n` +
+        `The subtitle ${subtitleFileName +
+          ".srt"} is being processed at the following path: ${parsedDirPath}`
     );
     const outputNameAndPath = path.join(
       parsedDirPath,
