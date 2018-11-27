@@ -1,9 +1,34 @@
+* {
+  -webkit-user-drag: none;
+}
+
+html {
+  box-sizing: border-box;
+}
+
 body {
   /* font-family: "Permanent Marker", cursive;
   font-family: "Sedgwick Ave", cursive; */
-  background-color: "#182233";
+  background-color: #182233;
+}
+#title-container {
+  display: flex;
+  justify-content: center;
 }
 
 #title-header {
   font-family: "Permanent Marker", cursive;
+  color: white;
+}
+#drag-section {
+  display: flex;
+  justify-content: center;
+}
+
+#drag-container {
+  align-self: center;
+  width: 350px;
+  height: 290px;
+  border: dashed 3px rgb(224, 214, 214);
+  transition: border-width 0.2s linear;
 }
