@@ -1,5 +1,6 @@
 * {
   -webkit-user-drag: none;
+  -webkit-app-region: drag;
 }
 
 html {
