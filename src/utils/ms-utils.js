@@ -25,8 +25,14 @@ const getDefaultDirPath = filePath => {
  * @return {string} subtitleFileName - Returns only the filename, removing path and file extension
  */
 const getFileName = filePath => {
-  let subtitleFileName = path.basename(filePath, ".srt");
-  return subtitleFileName;
+  return new Promise((resolve, reject) => {
+    if (filePath) {
+      let subtitleFileName = path.basename(filePath, ".srt");
+      resolve(subtitleFileName);
+    } else {
+      reject(Error);
+    }
+  });
 };
 
 /**
