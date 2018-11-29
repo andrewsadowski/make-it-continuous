@@ -8,10 +8,15 @@ const parser = require("subtitles-parser");
  * @return {string} parsedDirPath - Returns the path without file and extension
  */
 const getDefaultDirPath = filePath => {
-  // let parsedDirPath = filePath.replace(/[^\/]*$/, '');
-  let parsedDirPath = path.dirname(filePath);
-  defaultDirPath = parsedDirPath;
-  return parsedDirPath;
+  return new Promise((resolve, reject) => {
+    if (filePath) {
+      let parsedDirPath = path.dirname(filePath);
+      defaultDirPath = parsedDirPath;
+      resolve(parsedDirPath);
+    } else {
+      reject(Error);
+    }
+  });
 };
 
 /**
