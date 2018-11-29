@@ -61,6 +61,34 @@ const handleDirOfSubs = inputPath => {
 };
 
 /**
+ *
+ * @param {string} filePath - accepts a string with a path to the subtitle
+ * @return {array} - returns an array of objects displaying the subtitle contents
+ */
+const processSubtitle = filePath => {
+  return new Promise((resolve, reject) => {
+    if (filePath) {
+      const srt = fs.readFileSync(filePath, "utf8");
+      const parsedDirPath = path.dirname(filePath);
+      const subtitleFileName = path.basename(filePath, ".srt");
+      console.log(
+        `msNormalizer says: \n` +
+          `The subtitle ${subtitleFileName +
+            ".srt"} is being processed at the following path: ${parsedDirPath}`
+      );
+      const outputNameAndPath = path.join(
+        parsedDirPath,
+        subtitleFileName + "_msUpdated.srt"
+      );
+      let sub = parser.fromSrt(srt);
+      resolve(sub);
+    } else {
+      reject(Error);
+    }
+  });
+};
+
+/**
  * @param {string} filePath - accepts a string with a path to the subtitle
  * @return {string} sub - returns a subtitle file as well as a properly formatted srt
  */
