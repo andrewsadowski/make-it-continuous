@@ -1,13 +1,13 @@
-const fs = require('fs');
-const path = require('path');
-const parser = require('subtitles-parser');
+const fs = require("fs");
+const path = require("path");
+const parser = require("subtitles-parser");
 const {
   getDefaultDirPath,
   handleDirOfSubs,
   writeSubToFile,
   getFileName,
   processFile
-} = require('./fs-utils');
+} = require("./fs-utils");
 
 /**
  *
@@ -31,7 +31,7 @@ const processSubtitle = processedFile => {
  */
 const normalizeSubtitle = sub => {
   return new Promise((resolve, reject) => {
-    if (sub && typeof sub === 'array') {
+    if (sub && typeof sub === "array") {
       for (let i = 0; i < sub.length; i++) {
         for (let j = i + 1; j <= i + 1; j++) {
           if (sub[j] === undefined) return;
@@ -44,10 +44,7 @@ const normalizeSubtitle = sub => {
 
             if (iMS > jMS && iSS === jSS) {
               // console.log(`iMS: ${iMS} should be the same as jMS: ${jMS}`);
-              sub[j].startTime = sub[j].startTime.replace(
-                /\d{3}/g,
-                iMS
-              );
+              sub[j].startTime = sub[j].startTime.replace(/\d{3}/g, iMS);
             }
           };
         }
@@ -62,9 +59,38 @@ const normalizeSubtitle = sub => {
   });
 };
 
+/**
+ *
+ * @param {array} normalizedSub - array of sub objs that have been normalized
+ */
+const makeContinuous = normalizedSub => {
+  let sub = normalizedSub;
+  return new Promise((resolve, reject) => {
+    if (typeof sub === "array") {
+      for (let j = i + 1; j <= i + 1; j++) {
+        if (sub[j] === undefined) return;
+        const msCheckAndUpdate = () => {
+          //save substring of MS for both preceeding start and end times
+          let iMS = sub[i].endTime.substr(9, 3);
+          let iSS = sub[i].endTime.substr(6, 2);
+          let jMS = sub[j].startTime.substr(9, 3);
+          let jSS = sub[j].startTime.substr(6, 2);
+
+          if (iMS > jMS && iSS === jSS) {
+            // console.log(`iMS: ${iMS} should be the same as jMS: ${jMS}`);
+            sub[j].startTime = sub[j].startTime.replace(/\d{3}/g, iMS);
+          }
+        };
+      }
+      const updatedSub = sub;
+      resolve(updatedSub);
+    }
+  });
+};
+
 const main = async () => {
   try {
-    let file = await processFile('test.srt');
+    let file = await processFile("test.srt");
     let sub = await processSubtitle(file);
     console.log(sub);
     return sub;
