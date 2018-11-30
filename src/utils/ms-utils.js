@@ -1,87 +1,6 @@
-const fs = require("fs");
-const path = require("path");
-const parser = require("subtitles-parser");
-
-/**
- *
- * @param {string} filePath - Takes a filePath to parse
- * @return {string} parsedDirPath - Returns the path without file and extension
- */
-const getDefaultDirPath = filePath => {
-  return new Promise((resolve, reject) => {
-    if (filePath) {
-      let parsedDirPath = path.dirname(filePath);
-      defaultDirPath = parsedDirPath;
-      resolve(parsedDirPath);
-    } else {
-      reject(Error);
-    }
-  });
-};
-
-/**
- *
- * @param {string} filePath - Takes a path as a string to parse
- * @return {string} subtitleFileName - Returns only the filename, removing path and file extension
- */
-const getFileName = filePath => {
-  return new Promise((resolve, reject) => {
-    if (filePath) {
-      let subtitleFileName = path.basename(filePath, ".srt");
-      resolve(subtitleFileName);
-    } else {
-      reject(Error);
-    }
-  });
-};
-
-/**
- *
- * @param {string} outputNameAndPath - Path and Name of output
- * @param {object} subtitle - Object consisting of updated subtitle file
- */
-const writeSubToFile = (outputNameAndPath, subtitle) => {
-  return new Promise((resolve, reject) => {
-    if (outputNameAndPath && subtitle) {
-      resolve(
-        fs.writeFile(outputNameAndPath, subtitle, err => {
-          if (err) return console.log(err);
-        })
-      );
-    } else {
-      reject(Error);
-    }
-  });
-};
-
-/**
- *
- * @param {string} inputPath - Path to directory of srts
- */
-const handleDirOfSubs = inputPath => {
-  const dirArr = fs.readdirSync(inputPath);
-  const dirPath = inputPath;
-  dirArr.forEach(file => {
-    let filePath = path.join(dirPath, file);
-    msNormalizer(filePath);
-  });
-  return dirArr;
-};
-
-/**
- *
- * @param {string} filePath - path to srt file
- */
-const processFile = filePath => {
-  return new Promise((resolve, reject) => {
-    if (filePath) {
-      const srt = fs.readFileSync(filePath, "utf8");
-      resolve(srt);
-    } else {
-      reject(Error);
-    }
-  });
-};
+const fs = require('fs');
+const path = require('path');
+const parser = require('subtitles-parser');
 
 /**
  *
@@ -91,17 +10,17 @@ const processFile = filePath => {
 const processSubtitle = filePath => {
   return new Promise((resolve, reject) => {
     if (filePath) {
-      const srt = fs.readFileSync(filePath, "utf8");
+      const srt = fs.readFileSync(filePath, 'utf8');
       const parsedDirPath = path.dirname(filePath);
-      const subtitleFileName = path.basename(filePath, ".srt");
+      const subtitleFileName = path.basename(filePath, '.srt');
       console.log(
         `msNormalizer says: \n` +
           `The subtitle ${subtitleFileName +
-            ".srt"} is being processed at the following path: ${parsedDirPath}`
+            '.srt'} is being processed at the following path: ${parsedDirPath}`
       );
       const outputNameAndPath = path.join(
         parsedDirPath,
-        subtitleFileName + "_msUpdated.srt"
+        subtitleFileName + '_msUpdated.srt'
       );
       let sub = parser.fromSrt(srt);
       resolve(sub);
@@ -117,18 +36,18 @@ const processSubtitle = filePath => {
  */
 const msNormalizer = async filePath => {
   try {
-    const srt = fs.readFileSync(filePath, "utf8");
+    const srt = fs.readFileSync(filePath, 'utf8');
 
     const parsedDirPath = path.dirname(filePath);
-    const subtitleFileName = path.basename(filePath, ".srt");
+    const subtitleFileName = path.basename(filePath, '.srt');
     console.log(
       `msNormalizer says: \n` +
         `The subtitle ${subtitleFileName +
-          ".srt"} is being processed at the following path: ${parsedDirPath}`
+          '.srt'} is being processed at the following path: ${parsedDirPath}`
     );
     const outputNameAndPath = path.join(
       parsedDirPath,
-      subtitleFileName + "_msUpdated.srt"
+      subtitleFileName + '_msUpdated.srt'
     );
 
     let sub = parser.fromSrt(srt);
@@ -145,7 +64,10 @@ const msNormalizer = async filePath => {
 
           if (iMS > jMS && iSS === jSS) {
             // console.log(`iMS: ${iMS} should be the same as jMS: ${jMS}`);
-            sub[j].startTime = sub[j].startTime.replace(/\d{3}/g, iMS);
+            sub[j].startTime = sub[j].startTime.replace(
+              /\d{3}/g,
+              iMS
+            );
           }
         })();
       }
@@ -160,9 +82,6 @@ const msNormalizer = async filePath => {
 };
 
 module.exports = {
-  getDefaultDirPath,
-  getFileName,
-  writeSubToFile,
-  handleDirOfSubs,
+  processSubtitle,
   msNormalizer
 };
