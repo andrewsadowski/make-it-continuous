@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { msNormalizer, processSubtitle } = require('./ms-utils');
+const { processSubtitle } = require('./ms-utils');
 
 /**
  *
@@ -9,7 +9,7 @@ const { msNormalizer, processSubtitle } = require('./ms-utils');
 const processFile = filePath => {
   return new Promise((resolve, reject) => {
     if (filePath) {
-      const srt = fs.readFileSync(filePath, 'utf8');
+      const srt = fs.readFileSync(filePath, 'utf-8');
       resolve(srt);
     } else {
       reject(Error);
