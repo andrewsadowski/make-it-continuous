@@ -44,6 +44,8 @@ body {
   width: 150px;
   height: 100px;
   align-self: center;
+  font-family: "Cabin", sans-serif;
+  font-size: 20px;
   border-radius: 10px;
 }
 
