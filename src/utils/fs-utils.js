@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { msNormalizer, processSubtitle } = require('./fs-utils');
+const { msNormalizer, processSubtitle } = require('./ms-utils');
 
 /**
  *

@@ -1,6 +1,13 @@
 const fs = require('fs');
 const path = require('path');
 const parser = require('subtitles-parser');
+const {
+  getDefaultDirPath,
+  handleDirOfSubs,
+  writeSubToFile,
+  getFileName,
+  processFile
+} = require('./fs-utils');
 
 /**
  *
