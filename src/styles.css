@@ -18,18 +18,34 @@ body {
 }
 
 #title-header {
-  font-family: "Permanent Marker", cursive;
+  font-family: 'Permanent Marker', cursive;
   color: white;
 }
+
 #drag-section {
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 #drag-container {
   align-self: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 350px;
   height: 290px;
   border: dashed 3px rgb(224, 214, 214);
   transition: border-width 0.2s linear;
+}
+
+#execute {
+  visibility: hidden;
+  width: 100px;
+  height: 50px;
+  align-self: center;
+}
+
+.ready {
+  visibility: visible;
 }

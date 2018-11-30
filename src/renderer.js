@@ -4,14 +4,16 @@ const fs = require('fs');
 const path = require('path');
 const {
   getDefaultDirPath,
-  getFileName,
-  writeSubToFile,
   handleDirOfSubs,
-  msNormalizer
-} = require('./utils/ms-utils');
+  writeSubToFile,
+  getFileName,
+  processFile
+} = require('./utils/fs-utils');
+const { processSubtitle } = require('./utils/ms-utils');
 
 let dragSection = document.querySelector('#drag-section');
 let dragContainer = document.querySelector('#drag-container');
+const execute = document.querySelector('#execute');
 
 let filePathForSub;
 let dir;
@@ -56,6 +58,8 @@ document.addEventListener(
   e => {
     e.preventDefault();
     filePathForSub = e.dataTransfer.files[0].path;
+    console.log(filePathForSub);
+    // execute.classList.add('ready');
     // getDefaultDirPath(filePathForSub);
     // subtitleFileName = path.basename(filePathForSub, '.srt');
     // console.log(
