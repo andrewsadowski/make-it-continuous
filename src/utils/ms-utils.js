@@ -41,8 +41,16 @@ const getFileName = filePath => {
  * @param {object} subtitle - Object consisting of updated subtitle file
  */
 const writeSubToFile = (outputNameAndPath, subtitle) => {
-  fs.writeFile(outputNameAndPath, subtitle, err => {
-    if (err) return console.log(err);
+  return new Promise((resolve, reject) => {
+    if (outputNameAndPath && subtitle) {
+      resolve(
+        fs.writeFile(outputNameAndPath, subtitle, err => {
+          if (err) return console.log(err);
+        })
+      );
+    } else {
+      reject(Error);
+    }
   });
 };
 
