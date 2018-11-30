@@ -13,6 +13,9 @@ const {
 let dragSection = document.querySelector('#drag-section');
 let dragContainer = document.querySelector('#drag-container');
 
+let filePathForSub;
+let dir;
+
 /**
  * * DragOver Logic
  * * -Prevents Electron from showing the .srt when dragging in
@@ -52,7 +55,7 @@ document.addEventListener(
   'drop',
   e => {
     e.preventDefault();
-    // filePathForSub = e.dataTransfer.files[0].path;
+    filePathForSub = e.dataTransfer.files[0].path;
     // getDefaultDirPath(filePathForSub);
     // subtitleFileName = path.basename(filePathForSub, '.srt');
     // console.log(
