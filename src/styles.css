@@ -18,7 +18,7 @@ body {
 }
 
 #title-header {
-  font-family: 'Permanent Marker', cursive;
+  font-family: "Permanent Marker", cursive;
   color: white;
 }
 
@@ -40,12 +40,26 @@ body {
 }
 
 #execute {
-  visibility: hidden;
-  width: 100px;
-  height: 50px;
+  display: none;
+  width: 150px;
+  height: 100px;
   align-self: center;
+  border-radius: 10px;
 }
 
-.ready {
-  visibility: visible;
+#drag-container.ready button {
+  display: block;
+  animation: colorChange 2s ease infinite;
+}
+
+@keyframes colorChange {
+  0% {
+    background-color: #b5dcd8;
+  }
+  50% {
+    background-color: #52d850;
+  }
+  100% {
+    background-color: #b5dcd8;
+  }
 }

@@ -1,19 +1,19 @@
-const { remote, ipcRenderer } = require('electron');
-const { dialog } = require('electron').remote;
-const fs = require('fs');
-const path = require('path');
+const { remote, ipcRenderer } = require("electron");
+const { dialog } = require("electron").remote;
+const fs = require("fs");
+const path = require("path");
 const {
   getDefaultDirPath,
   handleDirOfSubs,
   writeSubToFile,
   getFileName,
   processFile
-} = require('./utils/fs-utils');
-const { processSubtitle } = require('./utils/ms-utils');
+} = require("./utils/fs-utils");
+const { processSubtitle } = require("./utils/ms-utils");
 
-let dragSection = document.querySelector('#drag-section');
-let dragContainer = document.querySelector('#drag-container');
-const execute = document.querySelector('#execute');
+let dragSection = document.querySelector("#drag-section");
+let dragContainer = document.querySelector("#drag-container");
+const execute = document.querySelector("#execute");
 
 let filePathForSub;
 let dir;
@@ -26,7 +26,7 @@ let dir;
  */
 
 document.addEventListener(
-  'dragover',
+  "dragover",
   e => {
     e.preventDefault();
     e.stopPropagation();
@@ -35,31 +35,31 @@ document.addEventListener(
   false
 );
 
-document.addEventListener('ondragstart', e => {
+document.addEventListener("ondragstart", e => {
   e.preventDefault();
   e.stopPropagation();
   return false;
 });
 
-document.addEventListener('ondragleave', e => {
+document.addEventListener("ondragleave", e => {
   e.preventDefault();
   e.stopPropagation();
   return false;
 });
 
-document.addEventListener('ondragend', e => {
+document.addEventListener("ondragend", e => {
   e.preventDefault();
   e.stopPropagation();
   return false;
 });
 
 document.addEventListener(
-  'drop',
+  "drop",
   e => {
     e.preventDefault();
     filePathForSub = e.dataTransfer.files[0].path;
     console.log(filePathForSub);
-    // execute.classList.add('ready');
+    dragContainer.classList.add("ready");
     // getDefaultDirPath(filePathForSub);
     // subtitleFileName = path.basename(filePathForSub, '.srt');
     // console.log(
