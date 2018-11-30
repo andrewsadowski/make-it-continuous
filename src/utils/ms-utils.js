@@ -70,6 +70,21 @@ const handleDirOfSubs = inputPath => {
 
 /**
  *
+ * @param {string} filePath - path to srt file
+ */
+const processFile = filePath => {
+  return new Promise((resolve, reject) => {
+    if (filePath) {
+      const srt = fs.readFileSync(filePath, "utf8");
+      resolve(srt);
+    } else {
+      reject(Error);
+    }
+  });
+};
+
+/**
+ *
  * @param {string} filePath - accepts a string with a path to the subtitle
  * @return {array} - returns an array of objects displaying the subtitle contents
  */
