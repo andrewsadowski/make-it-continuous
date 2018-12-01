@@ -31,29 +31,27 @@ const processSubtitle = processedFile => {
  */
 const normalizeSubtitle = async sub => {
   try {
-    if (sub) {
-      for (let i = 0; i < sub.length; i++) {
-        for (let j = i + 1; j <= i + 1; j++) {
-          if (sub[j] === undefined) return;
-          const msCheckAndUpdate = await (() => {
-            //save substring of MS for both preceeding start and end times
-            let iMS = sub[i].endTime.substr(9, 3);
-            let iSS = sub[i].endTime.substr(6, 2);
-            let jMS = sub[j].startTime.substr(9, 3);
-            let jSS = sub[j].startTime.substr(6, 2);
+    for (let i = 0; i < sub.length; i++) {
+      for (let j = i + 1; j <= i + 1; j++) {
+        if (sub[j] === undefined) break;
+        const msCheckAndUpdate = await (() => {
+          //save substring of MS for both preceeding start and end times
+          let iMS = sub[i].endTime.substr(9, 3);
+          let iSS = sub[i].endTime.substr(6, 2);
+          let jMS = sub[j].startTime.substr(9, 3);
+          let jSS = sub[j].startTime.substr(6, 2);
 
-            if (iMS > jMS && iSS === jSS) {
-              console.log(
-                `iMS: ${iMS} should be the same as jMS: ${jMS}`
-              );
-              sub[i].endTime = sub[i].endTime.replace(/\d{3}/g, jMS);
-            }
-          })();
-          const updatedSub = await sub;
-          return updatedSub;
-        }
+          if (iMS > jMS && iSS === jSS) {
+            console.log(
+              `iMS: ${iMS} should be the same as jMS: ${jMS}`
+            );
+            sub[i].endTime = sub[i].endTime.replace(/\d{3}/g, jMS);
+          }
+        })();
       }
     }
+    const updatedSub = await sub;
+    return updatedSub;
   } catch (Error) {
     console.log(Error);
   }
@@ -94,9 +92,9 @@ const makeContinuous = async sub => {
               sub[i].endTime = sub[j].startTime;
             }
           })();
-          const updatedSub = await sub;
-          return updatedSub;
         }
+        const updatedSub = await sub;
+        return updatedSub;
       }
     }
   } catch (Error) {
@@ -109,12 +107,10 @@ const main = async () => {
     let file = await processFile('test.srt');
     let sub = await processSubtitle(file);
     let msFixed = await normalizeSubtitle(sub);
-    let madeContinuous = await makeContinuous(msFixed);
-
     console.log(msFixed);
-    // console.log(madeContinuous);
-    // let continuousFixed = await makeContinuous(msFixed);
-    console.log(sub);
+    let madeContinuous = await makeContinuous(msFixed);
+    console.log(madeContinuous);
+
     return sub;
   } catch (Error) {
     console.log(Error);
