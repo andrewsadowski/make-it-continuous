@@ -94,6 +94,8 @@ const main = async () => {
     let file = await processFile("test.srt");
     let sub = await processSubtitle(file);
     let msFixed = await normalizeSubtitle(sub);
+    let madeContinuous = await makeContinuous(msFixed);
+
     console.log(msFixed);
     // let continuousFixed = await makeContinuous(msFixed);
     console.log(sub);
