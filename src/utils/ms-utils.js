@@ -107,7 +107,7 @@ const main = async () => {
     let file = await processFile('test.srt');
     let sub = await processSubtitle(file);
     let msFixed = await normalizeSubtitle(sub);
-    console.log(msFixed);
+    console.log('msFixed: ', msFixed);
     let madeContinuous = await makeContinuous(msFixed);
     console.log(madeContinuous);
 
@@ -122,7 +122,8 @@ main();
 module.exports = {
   processSubtitle,
   normalizeSubtitle,
-  makeContinuous
+  makeContinuous,
+  main
 };
 
 // /**
