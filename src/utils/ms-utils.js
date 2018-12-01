@@ -29,13 +29,13 @@ const processSubtitle = processedFile => {
  *
  * @param {array} sub - Parsed subtitle ready for processing
  */
-const normalizeSubtitle = sub => {
-  return new Promise((resolve, reject) => {
-    if (sub && typeof sub === "array") {
+const normalizeSubtitle = async sub => {
+  try {
+    if (sub) {
       for (let i = 0; i < sub.length; i++) {
         for (let j = i + 1; j <= i + 1; j++) {
           if (sub[j] === undefined) return;
-          const msCheckAndUpdate = () => {
+          const msCheckAndUpdate = await (() => {
             //save substring of MS for both preceeding start and end times
             let iMS = sub[i].endTime.substr(9, 3);
             let iSS = sub[i].endTime.substr(6, 2);
@@ -43,55 +43,59 @@ const normalizeSubtitle = sub => {
             let jSS = sub[j].startTime.substr(6, 2);
 
             if (iMS > jMS && iSS === jSS) {
-              // console.log(`iMS: ${iMS} should be the same as jMS: ${jMS}`);
+              console.log(`iMS: ${iMS} should be the same as jMS: ${jMS}`);
               sub[j].startTime = sub[j].startTime.replace(/\d{3}/g, iMS);
             }
-          };
+          })();
+          const updatedSub = await sub;
+          return updatedSub;
         }
-        const updatedSub = sub;
-        resolve(updatedSub);
-        // const updatedSrt = await parser.toSrt(sub);
-        // await writeSubToFile(outputNameAndPath, updatedSrt);
       }
-    } else {
-      reject(Error);
     }
-  });
+  } catch (Error) {
+    console.log(Error);
+  }
 };
 
 /**
  *
- * @param {array} normalizedSub - array of sub objs that have been normalized
+ * @param {object} sub - Parsed subtitle ready for processing
  */
-const makeContinuous = normalizedSub => {
-  let sub = normalizedSub;
-  return new Promise((resolve, reject) => {
-    if (typeof sub === "array") {
-      for (let j = i + 1; j <= i + 1; j++) {
-        if (sub[j] === undefined) return;
-        const msCheckAndUpdate = () => {
-          //save substring of MS for both preceeding start and end times
-          let iMS = sub[i].endTime.substr(9, 3);
-          let iSS = sub[i].endTime.substr(6, 2);
-          let jMS = sub[j].startTime.substr(9, 3);
-          let jSS = sub[j].startTime.substr(6, 2);
+const makeContinuous = async sub => {
+  try {
+    if (sub) {
+      for (let i = 0; i < sub.length; i++) {
+        for (let j = i + 1; j <= i + 1; j++) {
+          if (sub[j] === undefined) return;
+          const msCheckAndUpdate = await (() => {
+            //save substring of MS for both preceeding start and end times
+            let iMS = sub[i].endTime.substr(9, 3);
+            let iSS = sub[i].endTime.substr(6, 2);
+            let jMS = sub[j].startTime.substr(9, 3);
+            let jSS = sub[j].startTime.substr(6, 2);
 
-          if (iMS > jMS && iSS === jSS) {
-            // console.log(`iMS: ${iMS} should be the same as jMS: ${jMS}`);
-            sub[j].startTime = sub[j].startTime.replace(/\d{3}/g, iMS);
-          }
-        };
+            if (iMS > jMS && iSS === jSS) {
+              console.log(`iMS: ${iMS} should be the same as jMS: ${jMS}`);
+              sub[j].startTime = sub[j].startTime.replace(/\d{3}/g, iMS);
+            }
+          })();
+          const updatedSub = await sub;
+          return updatedSub;
+        }
       }
-      const updatedSub = sub;
-      resolve(updatedSub);
     }
-  });
+  } catch (Error) {
+    console.log(Error);
+  }
 };
 
 const main = async () => {
   try {
     let file = await processFile("test.srt");
     let sub = await processSubtitle(file);
+    let msFixed = await normalizeSubtitle(sub);
+    console.log(msFixed);
+    // let continuousFixed = await makeContinuous(msFixed);
     console.log(sub);
     return sub;
   } catch (Error) {
@@ -99,11 +103,12 @@ const main = async () => {
   }
 };
 
-// main();
+main();
 
 module.exports = {
   processSubtitle,
-  normalizeSubtitle
+  normalizeSubtitle,
+  makeContinuous
 };
 
 // /**
