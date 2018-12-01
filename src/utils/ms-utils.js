@@ -1,13 +1,13 @@
-const fs = require("fs");
-const path = require("path");
-const parser = require("subtitles-parser");
+const fs = require('fs');
+const path = require('path');
+const parser = require('subtitles-parser');
 const {
   getDefaultDirPath,
   handleDirOfSubs,
   writeSubToFile,
   getFileName,
   processFile
-} = require("./fs-utils");
+} = require('./fs-utils');
 
 /**
  *
@@ -43,8 +43,10 @@ const normalizeSubtitle = async sub => {
             let jSS = sub[j].startTime.substr(6, 2);
 
             if (iMS > jMS && iSS === jSS) {
-              console.log(`iMS: ${iMS} should be the same as jMS: ${jMS}`);
-              sub[j].startTime = sub[j].startTime.replace(/\d{3}/g, iMS);
+              console.log(
+                `iMS: ${iMS} should be the same as jMS: ${jMS}`
+              );
+              sub[i].endTime = sub[i].endTime.replace(/\d{3}/g, jMS);
             }
           })();
           const updatedSub = await sub;
@@ -74,9 +76,22 @@ const makeContinuous = async sub => {
             let jMS = sub[j].startTime.substr(9, 3);
             let jSS = sub[j].startTime.substr(6, 2);
 
+            //Updates iMS to match jMS if both are on same second
             if (iMS > jMS && iSS === jSS) {
-              console.log(`iMS: ${iMS} should be the same as jMS: ${jMS}`);
-              sub[j].startTime = sub[j].startTime.replace(/\d{3}/g, iMS);
+              console.log(
+                `iMS: ${iMS} should be the same as jMS: ${jMS}`
+              );
+              sub[i].startTime = sub[i].startTime.replace(
+                /\d{3}/g,
+                jMS
+              );
+            }
+
+            if (iSS === jSS && iMS < jMS) {
+              console.log(
+                `MS not equal, must change to be continuous`
+              );
+              sub[i].endTime = sub[j].startTime;
             }
           })();
           const updatedSub = await sub;
@@ -91,12 +106,13 @@ const makeContinuous = async sub => {
 
 const main = async () => {
   try {
-    let file = await processFile("test.srt");
+    let file = await processFile('test.srt');
     let sub = await processSubtitle(file);
     let msFixed = await normalizeSubtitle(sub);
     let madeContinuous = await makeContinuous(msFixed);
 
     console.log(msFixed);
+    // console.log(madeContinuous);
     // let continuousFixed = await makeContinuous(msFixed);
     console.log(sub);
     return sub;
