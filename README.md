@@ -7,9 +7,9 @@
   <a href="https://github.com/andrewsadowski/make-it-continuous/releases/download/v1.0/make-it-continuous-1.0.0.dmg">
   <img src="https://img.shields.io/badge/MacOS-v.1.0-brightgreen.svg?style=flat-square" alt="MacOS dmg file" />
   </a>
-    <!-- <a href="https://github.com/andrewsadowski/Subtitle-To-TSV/releases/download/v1.1/subtitle-to-tsv-1.1.exe">
-  <img src="https://img.shields.io/badge/Windows-v.1.1-brightgreen.svg?style=flat-square" alt="MacOS dmg file" />
-  </a>  -->
+  <a href="https://github.com/andrewsadowski/make-it-continuous/releases/download/v1.0/make-it-continuous-1.0.0.exe">
+  <img src="https://img.shields.io/badge/Windows-v.1.0-brightgreen.svg?style=flat-square" alt="MacOS dmg file" />
+  </a> 
 </p>
 
 ### Overview
