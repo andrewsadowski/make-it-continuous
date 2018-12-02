@@ -6,6 +6,7 @@ const {
   getDefaultDirPath,
   handleDirOfSubs,
   writeSubToFile,
+  handleFile,
   getFileName,
   processFile
 } = require('./utils/fs-utils');
@@ -13,7 +14,8 @@ const {
   processSubtitle,
   main,
   makeContinuous,
-  normalizeSubtitle
+  normalizeSubtitle,
+  convertSubToSrt
 } = require('./utils/ms-utils');
 
 let dragSection = document.querySelector('#drag-section');
@@ -22,6 +24,39 @@ const execute = document.querySelector('#execute');
 
 let filePathForSub;
 let dir;
+
+execute.addEventListener('click', e => {
+  if (dragContainer.classList.contains('ready')) {
+    console.log('ITS READY');
+    console.log(`filePathForSub: ${filePathForSub}`);
+    (async filePathForSub => {
+      try {
+        const file = await processFile(filePathForSub);
+        const sub = await processSubtitle(file);
+        const msFixed = await normalizeSubtitle(sub);
+        console.log('msFixed: ', msFixed);
+        const madeContinuous = await makeContinuous(msFixed);
+        console.log(madeContinuous);
+        const srt = await convertSubToSrt(madeContinuous);
+        const fileInfo = await handleFile(filePathForSub);
+        console.log('fileInfo', fileInfo);
+        const writeIt = await writeSubToFile(fileInfo, srt);
+        return `success!`;
+      } catch (Error) {
+        console.log(Error, 'FUCK');
+      }
+      // try {
+      //   let fileInfo = await processFile(filePathForSub);
+      //   console.log(fileInfo);
+      //   return `DONE!!`;
+      // } catch (Error) {
+      //   console.log(Error);
+      // }
+    })(filePathForSub);
+  }
+  alert(`Your file has been created at: ${filePathForSub}`);
+  dragContainer.classList.remove('ready');
+});
 
 /**
  * * DragOver Logic

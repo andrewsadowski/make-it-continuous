@@ -1,8 +1,14 @@
 {
   "name": "make-it-continuous",
   "version": "1.0.0",
-  "description": "",
+  "description": "Makes all timestamps within 2 seconds of eachother continuous!",
   "main": "src/main.js",
+  "build": {
+    "appId": "make-it-continuous",
+    "mac": {
+      "category": "com.electron.make-it-continuous"
+    }
+  },
   "scripts": {
     "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1"

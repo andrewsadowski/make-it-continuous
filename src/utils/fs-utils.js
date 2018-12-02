@@ -69,6 +69,18 @@ const writeSubToFile = (outputNameAndPath, subtitle) => {
   });
 };
 
+const handleFile = async filePath => {
+  console.log('filePath: ', filePath);
+  let fileName = await getFileName(filePath);
+  const dirPath = await getDefaultDirPath(filePath);
+  console.log('dirPath: ', dirPath);
+  const outputNameAndPath = await path.join(
+    dirPath,
+    fileName + '_msUpdate.srt'
+  );
+  return await outputNameAndPath;
+};
+
 /**
  *
  * @param {string} inputPath - Path to directory of srts
@@ -88,5 +100,6 @@ module.exports = {
   handleDirOfSubs,
   writeSubToFile,
   getFileName,
-  processFile
+  processFile,
+  handleFile
 };

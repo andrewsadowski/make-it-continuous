@@ -6,6 +6,7 @@ const {
   handleDirOfSubs,
   writeSubToFile,
   getFileName,
+  handleFile,
   processFile
 } = require('./fs-utils');
 
@@ -23,6 +24,10 @@ const processSubtitle = processedFile => {
       reject(Error);
     }
   });
+};
+
+const convertSubToSrt = async preppedSub => {
+  return await parser.toSrt(preppedSub);
 };
 
 /**
@@ -106,27 +111,33 @@ const makeContinuous = async sub => {
   }
 };
 
-const main = async () => {
+const main = async subtitle => {
   try {
-    let file = await processFile('test.srt');
-    let sub = await processSubtitle(file);
-    let msFixed = await normalizeSubtitle(sub);
+    const file = await processFile(subtitle);
+    const sub = await processSubtitle(file);
+    const msFixed = await normalizeSubtitle(sub);
     console.log('msFixed: ', msFixed);
-    let madeContinuous = await makeContinuous(msFixed);
+    const madeContinuous = await makeContinuous(msFixed);
     console.log(madeContinuous);
-
-    return sub;
+    const srt = await convertSubToSrt(madeContinuous);
+    const fileInfo = await handleFile(subtitle);
+    console.log('fileInfo', fileInfo);
+    const writeIt = await writeSubToFile(fileInfo, srt);
+    return `success!`;
   } catch (Error) {
-    console.log(Error);
+    console.log(Error, 'FUCK');
   }
 };
 
-main();
+// main(
+//   '/Users/andrewsadowski/dev/nodeTest/SRT-Millisecond-Normalizer/test.srt'
+// );
 
 module.exports = {
   processSubtitle,
   normalizeSubtitle,
   makeContinuous,
+  convertSubToSrt,
   main
 };
 
