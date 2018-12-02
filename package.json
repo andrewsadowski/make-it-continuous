@@ -14,7 +14,7 @@
     "pack": "electron-builder --dir",
     "dist": "electron-builder"
   },
-  "author": "",
+  "author": "Andrew N Sadowski",
   "license": "ISC",
   "dependencies": {
     "devtron": "^1.4.0",
