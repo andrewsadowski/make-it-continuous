@@ -93,12 +93,6 @@ document.addEventListener(
     filePathForSub = e.dataTransfer.files[0].path;
     console.log(filePathForSub);
     dragContainer.classList.add('ready');
-    // getDefaultDirPath(filePathForSub);
-    // subtitleFileName = path.basename(filePathForSub, '.srt');
-    // console.log(
-    //   `FilePathForSub${filePathForSub} \n subtitleFileName:${subtitleFileName}\ndefaultDirPath: ${defaultDirPath}`
-    // );
-    // execute.classList.add('ready');
     return false;
   },
   false
