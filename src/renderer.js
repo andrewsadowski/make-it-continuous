@@ -45,13 +45,6 @@ execute.addEventListener('click', e => {
       } catch (Error) {
         console.log(Error, 'FUCK');
       }
-      // try {
-      //   let fileInfo = await processFile(filePathForSub);
-      //   console.log(fileInfo);
-      //   return `DONE!!`;
-      // } catch (Error) {
-      //   console.log(Error);
-      // }
     })(filePathForSub);
   }
   alert(`Your file has been created at: ${filePathForSub}`);

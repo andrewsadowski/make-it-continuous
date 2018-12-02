@@ -11,14 +11,17 @@
   },
   "scripts": {
     "start": "electron .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "devtron": "^1.4.0",
-    "electron": "^3.0.10",
-    "electron-builder": "^20.36.2",
     "subtitles-parser": "0.0.2"
+  },
+  "devDependencies": {
+    "electron": "^3.0.10",
+    "electron-builder": "^20.38.2"
   }
 }

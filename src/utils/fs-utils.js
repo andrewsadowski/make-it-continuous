@@ -76,7 +76,7 @@ const handleFile = async filePath => {
   console.log('dirPath: ', dirPath);
   const outputNameAndPath = await path.join(
     dirPath,
-    fileName + '_msUpdate.srt'
+    fileName + '_msUpdated.srt'
   );
   return await outputNameAndPath;
 };
