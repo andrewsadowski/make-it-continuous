@@ -66,7 +66,7 @@ const makeContinuous = async sub => {
     if (sub) {
       for (let i = 0; i < sub.length; i++) {
         for (let j = i + 1; j <= i + 1; j++) {
-          if (sub[j] === undefined) return;
+          if (sub[j] === undefined) break;
           const msCheckAndUpdate = await (() => {
             //save substring of MS for both preceeding start and end times
             let iMS = sub[i].endTime.substr(9, 3);
@@ -85,17 +85,21 @@ const makeContinuous = async sub => {
               );
             }
 
-            if (iSS === jSS && iMS < jMS) {
+            if (iSS === jSS && iMS !== jMS) {
               console.log(
                 `MS not equal, must change to be continuous`
               );
               sub[i].endTime = sub[j].startTime;
             }
+            if (jSS - iSS <= 2) {
+              console.log(`The second difference is <= 2, swap`);
+              sub[i].endTime = sub[j].startTime;
+            }
           })();
         }
-        const updatedSub = await sub;
-        return updatedSub;
       }
+      const updatedSub = await sub;
+      return updatedSub;
     }
   } catch (Error) {
     console.log(Error);
