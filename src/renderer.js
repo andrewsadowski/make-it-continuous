@@ -23,12 +23,13 @@ let dragContainer = document.querySelector('#drag-container');
 const execute = document.querySelector('#execute');
 
 let filePathForSub;
-let dir;
+let outputPathForSub;
 
-execute.addEventListener('click', e => {
+execute.addEventListener('click', async e => {
   if (dragContainer.classList.contains('ready')) {
     console.log('ITS READY');
     console.log(`filePathForSub: ${filePathForSub}`);
+    outputPathForSub = path.dirname(filePathForSub);
     (async filePathForSub => {
       try {
         const file = await processFile(filePathForSub);
@@ -47,7 +48,10 @@ execute.addEventListener('click', e => {
       }
     })(filePathForSub);
   }
-  alert(`Your file has been created at: ${filePathForSub}`);
+
+  alert(
+    `Your updated file has been created here: ${outputPathForSub}`
+  );
   dragContainer.classList.remove('ready');
 });
 
