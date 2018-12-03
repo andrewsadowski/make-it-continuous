@@ -78,7 +78,7 @@ const handleFile = async filePath => {
     dirPath,
     fileName + '_msUpdated.srt'
   );
-  return await outputNameAndPath;
+  return outputNameAndPath;
 };
 
 /**
